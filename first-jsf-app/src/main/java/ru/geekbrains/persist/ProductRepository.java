@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -20,8 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Named
-@ApplicationScoped
+@Stateless
 public class ProductRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
@@ -29,32 +29,8 @@ public class ProductRepository {
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 
-    @Resource
-    private UserTransaction ut;
-
-    @PostConstruct
-    public void init() throws Exception {
-        if (countAll() == 0) {
-            try {
-                ut.begin();
-
-                saveOrUpdate(new Product(null, "Product  1",
-                        "Description of product 1", new BigDecimal(100)));
-                saveOrUpdate(new Product(null, "Product  2",
-                        "Description of product 2", new BigDecimal(200)));
-                saveOrUpdate(new Product(null, "Product  3",
-                        "Description of product 3", new BigDecimal(200)));
-
-                ut.commit();
-            } catch (Exception ex) {
-                logger.error("", ex);
-                ut.rollback();
-            }
-        }
-    }
-
     public List<Product> findAll() {
-        return em.createNamedQuery("findAll", Product.class)
+        return em.createNamedQuery("findAllProducts", Product.class)
                 .getResultList();
     }
 
@@ -63,11 +39,10 @@ public class ProductRepository {
     }
 
     public Long countAll() {
-        return em.createNamedQuery("countAll", Long.class)
+        return em.createNamedQuery("countAllProducts", Long.class)
                 .getSingleResult();
     }
 
-    @Transactional
     public void saveOrUpdate(Product product) {
         if (product.getId() == null) {
             em.persist(product);
@@ -75,9 +50,8 @@ public class ProductRepository {
         em.merge(product);
     }
 
-    @Transactional
     public void deleteById(Long id) {
-        em.createNamedQuery("deleteById")
+        em.createNamedQuery("deleteProductById")
                 .setParameter("id", id)
                 .executeUpdate();
     }
