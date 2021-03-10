@@ -27,10 +27,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-jms-client-bom</artifactId>
+            <type>pom</type>
+            <version>18.0.1.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>ru.geekbrains</groupId>
-            <artifactId>first-jsf-app</artifactId>
+            <artifactId>product-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <classifier>classes</classifier>
         </dependency>
     </dependencies>
 

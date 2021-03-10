@@ -1,6 +1,5 @@
 package ru.geekbrains;
 
-import ru.geekbrains.service.ProductService;
 import ru.geekbrains.service.ProductServiceRemote;
 
 import javax.naming.Context;
