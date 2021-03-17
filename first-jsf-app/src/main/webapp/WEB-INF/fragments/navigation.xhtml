@@ -15,10 +15,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item #{pageName == 'Product' ? 'active' : ''}">
-                <h:link styleClass="nav-link" value="Product" outcome="product"/>
+                <h:link styleClass="nav-link" value="Product" outcome="/product"/>
             </li>
             <li class="nav-item #{pageName == 'Cart' ? 'active' : ''}">
-                <h:link styleClass="nav-link" value="Cart" outcome="cart"/>
+                <h:link styleClass="nav-link" value="Cart" outcome="/cart"/>
+            </li>
+            <li class="nav-item #{pageName == 'User' ? 'active' : ''}">
+                <h:link styleClass="nav-link" value="User" outcome="/admin/user"/>
+            </li>
+            <li class="nav-item #{pageName == 'Role' ? 'active' : ''}">
+                <h:link styleClass="nav-link" value="Role" outcome="/admin/role"/>
+            </li>
+            <li class="nav-item">
+                <h:form rendered="#{request.userPrincipal != null}">
+                    <h:commandButton action="#{productController.logout()}" value="Logout #{request.userPrincipal.name}" />
+                </h:form>
+                <h:link styleClass="nav-link"
+                        rendered="#{request.userPrincipal == null}"
+                        value="Login"
+                        outcome="/login"/>
             </li>
         </ul>
     </div>

@@ -19,6 +19,7 @@
         <module>product-service-api</module>
         <module>first-jsf-app</module>
         <module>remote-client</module>
+        <module>ws-client</module>
     </modules>
 
 </project>
